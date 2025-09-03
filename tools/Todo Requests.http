@@ -1,0 +1,27 @@
+### GET all todos
+GET http://localhost:8080/todos
+
+###
+
+
+### Create a new todo
+POST http://localhost:8080/todos
+Content-Type: application/json
+
+{
+  "title": "Einkaufen",
+    "completed": true
+}
+
+###
+
+### Create a new todo
+POST http://localhost:8080/todos
+Content-Type: application/json
+
+{
+  "title": "Hausaufgaben",
+  "completed": false
+}
+
+###
