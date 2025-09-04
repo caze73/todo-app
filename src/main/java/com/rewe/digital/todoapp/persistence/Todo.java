@@ -16,6 +16,15 @@ public class Todo {
     private String title;
     private boolean completed;
 
+    public Todo() {
+        super();
+    }
+
+    public Todo(String title) {
+        super();
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }
