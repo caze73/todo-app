@@ -21,7 +21,7 @@ public class TodoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        todoRepository.save(new Todo("Learn Spring Boot", true));
+        todoRepository.save(new Todo("Learn Spring Boot"));
         todoRepository.save(new Todo("Build a REST API"));
         todoRepository.save(new Todo("Write Unit Tests"));
         todoRepository.save(new Todo("Build a Frontend"));
