@@ -4,21 +4,21 @@ import './TodoList.css';
 
 function TodoList() {
 
-    const [tasks, setTasks] = useState([]);
+    const [todos, setTodos] = useState([]);
 
     const [text, setText] = useState('');
 
     useEffect(() => {
         fetch("/todos")
             .then(response => response.json())
-            .then(data => setTasks(data))
+            .then(data => setTodos(data))
     }, [])
 
-    async function addTask(text) {
+    async function addTodo(text) {
 
         if (text.trim() === '') return;
 
-        const newTask = {
+        const newTodo = {
             title: text.trim(),
             completed: false
         };
@@ -29,41 +29,41 @@ function TodoList() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newTask)
+                body: JSON.stringify(newTodo)
             });
 
             if (response.ok) {
-                const savedTask = await response.json();
-                setTasks([...tasks, savedTask]);
+                const savedTodo = await response.json();
+                setTodos([...todos, savedTodo]);
                 setText('');
             }
         } catch (error) {
-            console.error('Error adding task:', error);
+            console.error('Error adding todo:', error);
         }
     }
 
-    async function deleteTask(id) {
+    async function deleteTodo(id) {
         try {
             const response = await fetch(`/todos/${id}`, {
                 method: 'DELETE'
             });
 
             if (response.ok) {
-                setTasks(tasks.filter(task => task.id !== id));
+                setTodos(todos.filter(todo => todo.id !== id));
             }
         } catch (error) {
-            console.error('Error deleting task:', error);
+            console.error('Error deleting todo:', error);
         }
     }
 
     async function toggleCompleted(id) {
         try {
-            const taskToUpdate = tasks.find(task => task.id === id);
-            if (!taskToUpdate) return;
+            const todoToUpdate = todos.find(todo => todo.id === id);
+            if (!todoToUpdate) return;
 
-            const updatedTask = {
-                ...taskToUpdate,
-                completed: !taskToUpdate.completed
+            const updatedTodo = {
+                ...todoToUpdate,
+                completed: !todoToUpdate.completed
             };
 
             const response = await fetch(`/todos/${id}`, {
@@ -71,21 +71,21 @@ function TodoList() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedTask)
+                body: JSON.stringify(updatedTodo)
             });
 
             if (response.ok) {
-                const savedTask = await response.json();
-                setTasks(tasks.map(task => {
-                    if (task.id === id) {
-                        return savedTask;
+                const savedTodo = await response.json();
+                setTodos(todos.map(todo => {
+                    if (todo.id === id) {
+                        return savedTodo;
                     } else {
-                        return task;
+                        return todo;
                     }
                 }));
             }
         } catch (error) {
-            console.error('Error updating task:', error);
+            console.error('Error updating todo:', error);
         }
     }
 
@@ -97,26 +97,26 @@ function TodoList() {
                     value={text}
                     onChange={e => setText(e.target.value)}
                     placeholder="What needs to be done?"
-                    onKeyPress={e => e.key === 'Enter' && addTask(text)}
+                    onKeyPress={e => e.key === 'Enter' && addTodo(text)}
                 />
                 <button
                     className="add-button"
-                    onClick={() => addTask(text)}
+                    onClick={() => addTodo(text)}
                     disabled={text.trim() === ''}
                 >
-                    Add Task
+                    Add Todo
                 </button>
             </div>
 
             <div className="todo-items">
-                {tasks.length === 0 ? (
-                    <div className="empty-state">No tasks yet. Add one above!</div>
+                {todos.length === 0 ? (
+                    <div className="empty-state">No todos yet. Add one above!</div>
                 ) : (
-                    tasks.map(task => (
+                    todos.map(todo => (
                         <TodoItem
-                            key={task.id}
-                            task={task}
-                            deleteTask={deleteTask}
+                            key={todo.id}
+                            todo={todo}
+                            deleteTodo={deleteTodo}
                             toggleCompleted={toggleCompleted}
                         />
                     ))

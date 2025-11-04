@@ -1,23 +1,23 @@
 import React from 'react';
 import './TodoItem.css';
 
-function TodoItem({ task, deleteTask, toggleCompleted }) {
+function TodoItem({ todo, deleteTodo, toggleCompleted }) {
     function handleChange() {
-        toggleCompleted(task.id);
+        toggleCompleted(todo.id);
     }
 
     return (
-        <div className={`todo-item ${task.completed ? 'completed' : ''}`}>
+        <div className={`todo-item ${todo.completed ? 'completed' : ''}`}>
             <input
                 type="checkbox"
                 className="todo-checkbox"
-                checked={task.completed}
+                checked={todo.completed}
                 onChange={handleChange}
             />
-            <p className="todo-text">{task.title}</p>
+            <p className="todo-text">{todo.title}</p>
             <button
                 className="delete-button"
-                onClick={() => deleteTask(task.id)}
+                onClick={() => deleteTodo(todo.id)}
             >
                 ×
             </button>
